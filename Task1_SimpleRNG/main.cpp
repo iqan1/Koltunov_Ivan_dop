@@ -119,13 +119,6 @@ int main() {
     generator.reset(0.4);
     
     std::vector<double> vec;
-    
-    // ВАЖНОЕ ИСПРАВЛЕНИЕ:
-    // Параметры (5, 0.2, 1) математически создают бесконечную последовательность,
-    // которая никогда не возвращается к 0.4.
-    // Вместо бесконечного std::copy используем цикл с ограничением, 
-    // чтобы программа не съела всю память (bad_alloc).
-    
     auto it = generator.begin();
     auto end_it = generator.end(0.5); // Точность 0.5
     
@@ -165,4 +158,5 @@ int main() {
     std::cout << "\nPress Enter to exit";
     std::cin.get();
     return 0;
+
 }
