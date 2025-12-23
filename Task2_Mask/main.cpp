@@ -56,7 +56,7 @@ int main() {
         // 10*10, 20*10, skip, 40*10, 50*10, skip -> 100 200 400 500
 
         // 5. Тест на ошибку компиляции
-        // Mask<4> wrong_size = {1, 1, 0}; // ОШИБКА КОМПИЛЯЦИИ: static assertion failed
+        // Mask<4> wrong_size = {1, 1, 0};
 
     } catch (const std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
