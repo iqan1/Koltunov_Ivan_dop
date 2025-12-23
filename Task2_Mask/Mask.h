@@ -13,7 +13,7 @@ private:
 
 public:
     // Конструктор с Variadic Templates.
-    // Позволяет добиться ОШИБКИ КОМПИЛЯЦИИ, если количество аргументов не равно N.
+    // Позволяет добиться ошибки компиляции, если количество аргументов не равно N.
     // Поддерживает синтаксис: Mask<4> m = {1, 1, 0, 1};
     template <typename... Args>
     Mask(Args... args) : _mask{static_cast<int>(args)...} {
@@ -40,14 +40,14 @@ public:
         return _mask[index];
     }
 
-    // Метод SLICE
+    // Метод slice
     // Видоизменяет переданный контейнер, удаляя элементы, где маска = 0.
     // Использует метод erase(), поэтому подходит для vector, deque, list и т.д.
     template <typename Container>
     void slice(Container& c) {
         if (c.empty()) return;
 
-        // Используем итераторный подход для изменения "на лету"
+        // Используем итераторный подход для изменения
         auto it = c.begin();
         size_t idx = 0;
 
@@ -67,8 +67,8 @@ public:
         }
     }
 
-    // Метод TRANSFORM
-    // Возвращает Новый контейнер того же размера
+    // Метод transform
+    // Возвращает новый контейнер того же размера
     // Элементы под маской 1 изменены функцией func, остальные без изменений
     template <typename Container, typename Func>
     Container transform(const Container& c, Func func) {
@@ -84,21 +84,17 @@ public:
         return result;
     }
 
-    // Метод SLICE_AND_TRANSFORM
-    // Возвращает НОВЫЙ контейнер, содержащий только элементы под маской 1 и к ним применена функция func.
+    // Метод slice_and_transform
+    // Возвращает контейнер, содержащий только элементы под маской 1 и к ним применена функция func.
     template <typename Container, typename Func>
     Container slice_and_transform(const Container& c, Func func) {
         Container result;
-        // Резервируем память, если контейнер это поддерживает (оптимизация)
-        // result.reserve(c.size()); 
         
         // Для универсальности используем back_inserter, но тогда нужен алгоритм.
         // Проще через цикл:
         size_t idx = 0;
         for (const auto& item : c) {
             if (_mask[idx % N] == 1) {
-                // Вставляем видоизмененный элемент
-                // Предполагается, что контейнер поддерживает push_back (vector, list, deque)
                 result.push_back(func(item));
             }
             idx++;
